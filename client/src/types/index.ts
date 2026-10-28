@@ -142,3 +142,4 @@ export interface IOverviewStats {
   oneOffSpend: number;
   userStats: IUserDemographicsStats;
 }
+

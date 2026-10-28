@@ -2,20 +2,17 @@ import React from 'react';
 import { IUserDemographicsStats } from '../types';
 import { formatCurrency, formatDate } from '../utils/formatters';
 import {
-  User,
   HeartPulse,
-  TrendingUp,
-  Award,
   Wallet,
   PiggyBank,
   CheckCircle2,
-  Calendar,
   Layers,
   Store,
   Compass,
   Edit3,
-  Shield,
   Sparkles,
+  Calendar,
+  Flame,
 } from 'lucide-react';
 
 interface UserStatsCardProps {
@@ -53,86 +50,85 @@ export const UserStatsCard: React.FC<UserStatsCardProps> = ({
     essentialSpendPercent,
   } = userStats;
 
-  const getScoreColorClass = () => {
+  const getScoreBadge = () => {
     switch (healthScoreColor) {
       case 'emerald':
-        return 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30';
+        return 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20';
       case 'teal':
-        return 'text-teal-400 bg-teal-500/10 border-teal-500/30';
+        return 'text-teal-400 bg-teal-500/10 border-teal-500/20';
       case 'blue':
-        return 'text-blue-400 bg-blue-500/10 border-blue-500/30';
+        return 'text-blue-400 bg-blue-500/10 border-blue-500/20';
       case 'amber':
-        return 'text-amber-400 bg-amber-500/10 border-amber-500/30';
+        return 'text-amber-400 bg-amber-500/10 border-amber-500/20';
       default:
-        return 'text-rose-400 bg-rose-500/10 border-rose-500/30';
+        return 'text-rose-400 bg-rose-500/10 border-rose-500/20';
     }
   };
 
   return (
-    <div className="bg-[#121929] border border-slate-800/80 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
-      {/* Ambient background decoration */}
-      <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+    <div className="glass-panel glass-panel-hover rounded-3xl p-6 sm:p-7 relative overflow-hidden group">
+      {/* Subtle ambient light gradient in top right corner */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none group-hover:bg-indigo-500/10 transition-colors duration-700" />
 
-      {/* Top Bar: User Identity & Actions */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-slate-800/80">
+      {/* Header Bar */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-5 border-b border-white/[0.06]">
         <div className="flex items-center gap-4">
           <div className="relative">
             <img
               src={user.avatar}
               alt={user.name}
-              className="w-16 h-16 rounded-2xl object-cover border-2 border-blue-500/30 shadow-lg"
+              className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl object-cover ring-2 ring-white/10 group-hover:ring-white/20 transition-all shadow-md"
             />
-            <span className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-[#121929] rounded-full" />
+            <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-400 border-2 border-[#0d0f17] rounded-full shadow-sm" />
           </div>
           <div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="text-xl font-bold text-white tracking-tight">{user.name}</h2>
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <h2 className="text-lg sm:text-xl font-bold tracking-tight text-white">{user.name}</h2>
+              <span className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-white/[0.06] text-zinc-300 border border-white/[0.08]">
                 {user.role}
               </span>
             </div>
-            <p className="text-xs text-slate-400 mt-0.5">{user.occupation}</p>
-            <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-              <span className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-800/80 text-cyan-300 border border-slate-700/50 flex items-center gap-1">
+            <p className="text-xs text-zinc-400 mt-0.5">{user.occupation}</p>
+            <div className="flex items-center gap-2 mt-1.5 flex-wrap text-[11px] text-zinc-400">
+              <span className="flex items-center gap-1 text-cyan-400/90 font-medium">
                 <Compass className="w-3 h-3 text-cyan-400" />
-                Persona: {user.spendingPersona}
+                {user.spendingPersona}
               </span>
-              <span className="text-[11px] text-slate-500">
-                Member since {formatDate(user.joinedAt)}
-              </span>
+              <span>•</span>
+              <span className="text-zinc-500">Member since {formatDate(user.joinedAt)}</span>
             </div>
           </div>
         </div>
 
         <button
           onClick={onEditProfile}
-          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition shadow-sm self-stretch sm:self-auto justify-center"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] transition-all self-stretch sm:self-auto justify-center active:scale-95"
         >
-          <Edit3 className="w-3.5 h-3.5 text-blue-400" />
-          Edit Financial Profile
+          <Edit3 className="w-3.5 h-3.5 text-zinc-400" />
+          <span>Edit Financial Plan</span>
         </button>
       </div>
 
-      {/* Grid of User Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
-        {/* COLUMN 1: FINANCIAL HEALTH SCORE & BEHAVIOR */}
-        <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800/80 flex flex-col justify-between">
+      {/* Grid of 3 Metrics Columns */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 pt-5">
+        {/* 1. FINANCIAL HEALTH SCORE */}
+        <div className="bg-white/[0.02] p-4 sm:p-5 rounded-2xl border border-white/[0.05] flex flex-col justify-between hover:border-white/[0.09] transition-all">
           <div>
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                <HeartPulse className="w-4 h-4 text-rose-400" /> Financial Health Score
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+                <HeartPulse className="w-3.5 h-3.5 text-rose-400" strokeWidth={2} />
+                Financial Health Score
               </span>
-              <span className={`px-2 py-0.5 rounded-full text-xs font-bold border ${getScoreColorClass()}`}>
+              <span className={`px-2 py-0.5 rounded-full text-xs font-bold border ${getScoreBadge()}`}>
                 Grade {healthScoreGrade}
               </span>
             </div>
 
-            {/* Score Radial / Display */}
-            <div className="flex items-center gap-4 my-2">
-              <div className="relative w-20 h-20 flex-shrink-0 flex items-center justify-center">
+            <div className="flex items-center gap-4 my-2.5">
+              <div className="relative w-18 h-18 sm:w-20 sm:h-20 flex-shrink-0 flex items-center justify-center">
                 <svg className="w-full h-full -rotate-90 transform" viewBox="0 0 36 36">
                   <path
-                    className="text-slate-800"
+                    className="text-white/[0.06]"
                     strokeWidth="3.5"
                     stroke="currentColor"
                     fill="none"
@@ -143,7 +139,7 @@ export const UserStatsCard: React.FC<UserStatsCardProps> = ({
                       healthScoreGrade.startsWith('A')
                         ? 'text-emerald-400'
                         : healthScoreGrade.startsWith('B')
-                        ? 'text-blue-400'
+                        ? 'text-indigo-400'
                         : 'text-amber-400'
                     }
                     strokeDasharray={`${financialHealthScore}, 100`}
@@ -155,47 +151,48 @@ export const UserStatsCard: React.FC<UserStatsCardProps> = ({
                   />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-xl font-black text-white">{financialHealthScore}</span>
-                  <span className="text-[9px] text-slate-400 -mt-1">/100</span>
+                  <span className="text-xl font-bold font-mono text-white tracking-tight">{financialHealthScore}</span>
+                  <span className="text-[9px] text-zinc-500 font-mono -mt-1">/100</span>
                 </div>
               </div>
 
-              <div className="space-y-1 text-xs text-slate-300">
-                <p className="font-semibold text-slate-100">
-                  {financialHealthScore >= 80 ? 'Excellent Discipline' : financialHealthScore >= 65 ? 'Stable Cashflow' : 'Needs Optimization'}
+              <div className="space-y-0.5 text-xs">
+                <p className="font-semibold text-zinc-200">
+                  {financialHealthScore >= 80 ? 'Optimal Capital Control' : financialHealthScore >= 65 ? 'Stable Balance' : 'Needs Optimization'}
                 </p>
-                <p className="text-[11px] text-slate-400 leading-tight">
-                  Evaluated across budget adherence, savings velocity, and essential spend ratios.
+                <p className="text-[11px] text-zinc-400 leading-tight">
+                  Evaluated across budget adherence, savings velocity, and essential spend discipline.
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="mt-3 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
-            <span>Essential Ratio: <strong className="text-slate-200">{essentialSpendPercent}%</strong></span>
-            <span>Logging Days: <strong className="text-slate-200">{activeLoggingDays} days</strong></span>
+          <div className="pt-3 border-t border-white/[0.05] text-[11px] text-zinc-400 flex items-center justify-between">
+            <span>Essential Ratio: <strong className="text-zinc-200 font-mono">{essentialSpendPercent}%</strong></span>
+            <span>Logging: <strong className="text-zinc-200 font-mono">{activeLoggingDays} days</strong></span>
           </div>
         </div>
 
-        {/* COLUMN 2: MONTHLY CASH FLOW & SAVINGS RATE */}
-        <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800/80 flex flex-col justify-between">
+        {/* 2. CASH FLOW & SAVINGS RATE */}
+        <div className="bg-white/[0.02] p-4 sm:p-5 rounded-2xl border border-white/[0.05] flex flex-col justify-between hover:border-white/[0.09] transition-all">
           <div>
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                <Wallet className="w-4 h-4 text-emerald-400" /> Monthly Cashflow
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+                <Wallet className="w-3.5 h-3.5 text-emerald-400" strokeWidth={2} />
+                Monthly Cashflow
               </span>
               <span className="text-xs font-mono font-bold text-emerald-400">
-                {savingsRatePercent}% Savings Rate
+                {savingsRatePercent}% Saved
               </span>
             </div>
 
             <div className="space-y-2 text-xs">
-              <div className="flex justify-between items-center bg-slate-950/40 p-2 rounded-lg border border-slate-800/50">
-                <span className="text-slate-400">Reported Monthly Income</span>
-                <span className="font-mono font-bold text-white">{formatCurrency(monthlyIncome, currencySymbol)}</span>
+              <div className="flex justify-between items-center py-1">
+                <span className="text-zinc-400">Net Monthly Income</span>
+                <span className="font-mono font-semibold text-white">{formatCurrency(monthlyIncome, currencySymbol)}</span>
               </div>
-              <div className="flex justify-between items-center bg-slate-950/40 p-2 rounded-lg border border-slate-800/50">
-                <span className="text-slate-400">Current Net Surplus</span>
+              <div className="flex justify-between items-center py-1 border-t border-white/[0.04]">
+                <span className="text-zinc-400">Net Monthly Surplus</span>
                 <span className={`font-mono font-bold ${netMonthlySurplus >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                   {formatCurrency(netMonthlySurplus, currencySymbol)}
                 </span>
@@ -203,69 +200,60 @@ export const UserStatsCard: React.FC<UserStatsCardProps> = ({
             </div>
           </div>
 
-          {/* Savings Progress Bar */}
-          <div className="mt-4 pt-3 border-t border-slate-800">
-            <div className="flex justify-between items-center text-xs mb-1">
-              <span className="text-slate-400 flex items-center gap-1">
-                <PiggyBank className="w-3.5 h-3.5 text-blue-400" /> Goal: {formatCurrency(savingsGoal, currencySymbol)}
+          {/* Savings Progress */}
+          <div className="pt-3 border-t border-white/[0.05]">
+            <div className="flex justify-between items-center text-xs mb-1.5">
+              <span className="text-zinc-400 text-[11px] flex items-center gap-1">
+                <PiggyBank className="w-3 h-3 text-cyan-400" /> Goal: {formatCurrency(savingsGoal, currencySymbol)}
               </span>
-              <span className="text-white font-mono font-semibold">{savingsGoalProgressPercent}%</span>
+              <span className="text-white font-mono text-[11px] font-semibold">{savingsGoalProgressPercent}%</span>
             </div>
-            <div className="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+            <div className="w-full bg-white/[0.06] rounded-full h-1.5 overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-blue-500 to-emerald-400 rounded-full transition-all duration-700"
+                className="h-full bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full transition-all duration-700 ease-out"
                 style={{ width: `${Math.min(100, savingsGoalProgressPercent)}%` }}
               />
             </div>
-            <span className="text-[10px] text-slate-400 block mt-1">
-              Current Reserve: <strong className="text-slate-200 font-mono">{formatCurrency(savingsCurrent, currencySymbol)}</strong>
+            <span className="text-[10px] text-zinc-500 block mt-1">
+              Current Reserve: <strong className="text-zinc-300 font-mono">{formatCurrency(savingsCurrent, currencySymbol)}</strong>
             </span>
           </div>
         </div>
 
-        {/* COLUMN 3: USER LIFETIME DEMOGRAPHICS & HABITS */}
-        <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800/80 flex flex-col justify-between">
+        {/* 3. LIFETIME HABITS & DEMOGRAPHICS */}
+        <div className="bg-white/[0.02] p-4 sm:p-5 rounded-2xl border border-white/[0.05] flex flex-col justify-between hover:border-white/[0.09] transition-all">
           <div>
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                <Award className="w-4 h-4 text-purple-400" /> Lifetime Demographics
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-indigo-400" strokeWidth={2} />
+                User Demographics
               </span>
-              <span className="text-xs text-slate-400">{lifetimeTransactionCount} Total Records</span>
+              <span className="text-[11px] font-mono text-zinc-400">{lifetimeTransactionCount} records</span>
             </div>
 
-            <div className="space-y-2.5 text-xs">
-              <div className="flex justify-between items-center">
-                <span className="text-slate-400">All-Time Expenditure</span>
-                <span className="font-mono font-extrabold text-white text-sm">
+            <div className="space-y-2 text-xs">
+              <div className="flex justify-between items-center py-1">
+                <span className="text-zinc-400">Lifetime Outflow</span>
+                <span className="font-mono font-bold text-white text-sm">
                   {formatCurrency(lifetimeTotalSpend, currencySymbol)}
                 </span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-slate-400">Lifetime Avg / Tx</span>
-                <span className="font-mono text-slate-200">
-                  {formatCurrency(averageExpenseLifetime, currencySymbol)}
-                </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-slate-400 flex items-center gap-1">
-                  <Layers className="w-3 h-3 text-cyan-400" /> Dominant Category
-                </span>
-                <span className="font-semibold text-cyan-300">
+              <div className="flex justify-between items-center py-1 border-t border-white/[0.04]">
+                <span className="text-zinc-400">Dominant Category</span>
+                <span className="font-medium text-cyan-300 truncate max-w-[130px]">
                   {dominantCategory} ({dominantCategoryShare}%)
                 </span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-slate-400 flex items-center gap-1">
-                  <Store className="w-3 h-3 text-amber-400" /> Frequent Merchant
-                </span>
-                <span className="font-semibold text-amber-300 truncate max-w-[140px]">
+              <div className="flex justify-between items-center py-1 border-t border-white/[0.04]">
+                <span className="text-zinc-400">Top Payee</span>
+                <span className="font-medium text-zinc-200 truncate max-w-[130px]">
                   {topMerchant}
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="mt-3 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center gap-1.5">
+          <div className="pt-3 border-t border-white/[0.05] text-[11px] text-zinc-400 flex items-center gap-1.5">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
             <span className="truncate">Monthly budget capped at {formatCurrency(monthlyBudgetLimit, currencySymbol)}</span>
           </div>

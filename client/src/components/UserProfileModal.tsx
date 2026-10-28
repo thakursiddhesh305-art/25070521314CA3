@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { IUser } from '../types';
-import { X, Check, User, DollarSign, Target, Shield, Compass, Sparkles } from 'lucide-react';
+import { X, Check, User, Target, Compass } from 'lucide-react';
 import { sounds } from '../utils/soundEffects';
 
 interface UserProfileModalProps {
@@ -91,7 +91,7 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
       sounds.playSuccess();
       onClose();
     } catch (err: any) {
-      setError(err.message || 'Failed to update user profile');
+      setError(err.message || 'Failed to update profile');
       sounds.playWarning();
     } finally {
       setIsSubmitting(false);
@@ -99,99 +99,94 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in">
-      <div className="bg-[#121929] border border-slate-700/80 rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-enter">
+      <div className="bg-[#0f1118] border border-white/[0.1] rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/50">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20">
-              <User className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="text-lg font-bold text-white">
-                {isCreateMode ? 'Create New User Account' : 'Edit User Financial Profile'}
-              </h3>
-              <p className="text-xs text-slate-400">
-                Calibrates user benchmarks, budget ceilings, and financial health algorithms.
-              </p>
-            </div>
+        <div className="px-6 py-4 border-b border-white/[0.06] flex items-center justify-between">
+          <div>
+            <h3 className="text-base font-bold text-white tracking-tight">
+              {isCreateMode ? 'Create User Profile' : 'Financial Profile Settings'}
+            </h3>
+            <p className="text-xs text-zinc-400 mt-0.5">
+              Calibrates budget ceilings, savings goals, and algorithm weights.
+            </p>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition"
+            className="text-zinc-400 hover:text-white p-1 rounded-lg hover:bg-white/[0.06] transition"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-4">
+        <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-4 text-xs">
           {error && (
-            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs">
+            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs">
               {error}
             </div>
           )}
 
           {/* Name & Email */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300">Full Name *</label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="space-y-1">
+              <label className="font-medium text-zinc-300">Full Name *</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
                 placeholder="e.g. Sarah Chen"
-                className="w-full px-3.5 py-2.5 bg-slate-900/90 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-blue-500"
+                className="w-full px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-indigo-500/50"
               />
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300">Email Address *</label>
+            <div className="space-y-1">
+              <label className="font-medium text-zinc-300">Email *</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="e.g. sarah@example.com"
-                className="w-full px-3.5 py-2.5 bg-slate-900/90 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-blue-500"
+                className="w-full px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-indigo-500/50"
               />
             </div>
           </div>
 
           {/* Occupation & Persona */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300">Occupation / Role</label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="space-y-1">
+              <label className="font-medium text-zinc-300">Occupation / Role</label>
               <input
                 type="text"
                 value={occupation}
                 onChange={(e) => setOccupation(e.target.value)}
                 placeholder="e.g. Lead Software Architect"
-                className="w-full px-3.5 py-2.5 bg-slate-900/90 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-blue-500"
+                className="w-full px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-indigo-500/50"
               />
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300">Spending Persona</label>
+            <div className="space-y-1">
+              <label className="font-medium text-zinc-300">Spending Persona</label>
               <select
                 value={spendingPersona}
                 onChange={(e) => setSpendingPersona(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-slate-900/90 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-blue-500"
+                className="w-full px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl text-zinc-200 focus:outline-none focus:border-indigo-500/50"
               >
-                <option value="Pragmatic Tech Enthusiast">Pragmatic Tech Enthusiast</option>
-                <option value="Balanced Planner">Balanced Planner</option>
-                <option value="Frugal Optimizer">Frugal Optimizer</option>
-                <option value="Urban Lifestyle Spender">Urban Lifestyle Spender</option>
-                <option value="Growth Investor">Growth Investor</option>
+                <option value="Pragmatic Tech Enthusiast" className="bg-zinc-900">Pragmatic Tech Enthusiast</option>
+                <option value="Balanced Planner" className="bg-zinc-900">Balanced Planner</option>
+                <option value="Frugal Optimizer" className="bg-zinc-900">Frugal Optimizer</option>
+                <option value="Urban Lifestyle Spender" className="bg-zinc-900">Urban Lifestyle Spender</option>
+                <option value="Growth Investor" className="bg-zinc-900">Growth Investor</option>
               </select>
             </div>
           </div>
 
-          {/* Income & Monthly Budget Limit */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300">Monthly Net Income ($) *</label>
+          {/* Income & Monthly Budget */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="space-y-1">
+              <label className="font-medium text-zinc-300">Monthly Net Income ($) *</label>
               <input
                 type="number"
                 step="100"
@@ -199,13 +194,12 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 value={monthlyIncome}
                 onChange={(e) => setMonthlyIncome(e.target.value)}
                 required
-                className="w-full px-3.5 py-2.5 bg-slate-900/90 border border-slate-700 rounded-xl text-sm font-mono font-bold text-white focus:outline-none focus:border-blue-500"
+                className="w-full px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl font-mono font-bold text-white focus:outline-none focus:border-indigo-500/50 tabular-nums"
               />
-              <span className="text-[10px] text-slate-500">Used to compute savings rate and cashflow.</span>
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300">Monthly Budget Ceiling ($) *</label>
+            <div className="space-y-1">
+              <label className="font-medium text-zinc-300">Monthly Budget Ceiling ($) *</label>
               <input
                 type="number"
                 step="50"
@@ -213,77 +207,65 @@ export const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 value={monthlyBudgetLimit}
                 onChange={(e) => setMonthlyBudgetLimit(e.target.value)}
                 required
-                className="w-full px-3.5 py-2.5 bg-slate-900/90 border border-slate-700 rounded-xl text-sm font-mono font-bold text-white focus:outline-none focus:border-blue-500"
+                className="w-full px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl font-mono font-bold text-white focus:outline-none focus:border-indigo-500/50 tabular-nums"
               />
-              <span className="text-[10px] text-slate-500">Governs dynamic burn tiers & alert status.</span>
             </div>
           </div>
 
-          {/* Savings Current & Savings Goal */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300">Current Savings Reserve ($)</label>
+          {/* Current Savings & Savings Target */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="space-y-1">
+              <label className="font-medium text-zinc-300">Current Savings Reserve ($)</label>
               <input
                 type="number"
                 step="100"
                 min="0"
                 value={savingsCurrent}
                 onChange={(e) => setSavingsCurrent(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-slate-900/90 border border-slate-700 rounded-xl text-sm font-mono text-white focus:outline-none focus:border-blue-500"
+                className="w-full px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl font-mono text-zinc-100 focus:outline-none focus:border-indigo-500/50 tabular-nums"
               />
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-300">Long-Term Savings Target ($)</label>
+            <div className="space-y-1">
+              <label className="font-medium text-zinc-300">Savings Target ($)</label>
               <input
                 type="number"
                 step="500"
                 min="0"
                 value={savingsGoal}
                 onChange={(e) => setSavingsGoal(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-slate-900/90 border border-slate-700 rounded-xl text-sm font-mono text-white focus:outline-none focus:border-blue-500"
+                className="w-full px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl font-mono text-zinc-100 focus:outline-none focus:border-indigo-500/50 tabular-nums"
               />
             </div>
           </div>
 
-          {/* Bio & Avatar */}
-          <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-slate-300">Avatar Image URL (optional)</label>
+          {/* Avatar URL */}
+          <div className="space-y-1">
+            <label className="font-medium text-zinc-300">Avatar URL (optional)</label>
             <input
               type="url"
               placeholder="https://images.unsplash.com/..."
               value={avatar}
               onChange={(e) => setAvatar(e.target.value)}
-              className="w-full px-3.5 py-2.5 bg-slate-900/90 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-blue-500"
+              className="w-full px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-indigo-500/50"
             />
           </div>
 
-          <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-slate-300">Financial Bio / Strategy</label>
-            <textarea
-              rows={2}
-              value={bio}
-              onChange={(e) => setBio(e.target.value)}
-              placeholder="Personal financial ethos or strategy..."
-              className="w-full px-3.5 py-2 bg-slate-900/90 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-blue-500 resize-none"
-            />
-          </div>
-
-          {/* Footer Buttons */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+          {/* Footer */}
+          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-white/[0.06]">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition"
+              className="px-3.5 py-1.5 rounded-xl text-xs font-medium text-zinc-400 hover:text-white transition"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white shadow-lg shadow-blue-500/20 transition-all disabled:opacity-50"
+              className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-semibold bg-white text-zinc-950 hover:bg-zinc-200 transition shadow-sm active:scale-95 disabled:opacity-50"
             >
-              <Check className="w-4 h-4" />
+              <Check className="w-3.5 h-3.5 stroke-[2.5]" />
               {isSubmitting ? 'Saving...' : isCreateMode ? 'Create Profile' : 'Save Changes'}
             </button>
           </div>

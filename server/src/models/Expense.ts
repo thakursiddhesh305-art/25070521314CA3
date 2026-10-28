@@ -80,3 +80,4 @@ ExpenseSchema.index({ userId: 1, category: 1 });
 ExpenseSchema.index({ userId: 1, amount: -1 });
 
 export default mongoose.model<IExpense>('Expense', ExpenseSchema);
+

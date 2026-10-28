@@ -62,3 +62,4 @@ export const getCategoryColor = (category: string): { bg: string; text: string; 
       return { bg: 'bg-slate-500/10', text: 'text-slate-400', border: 'border-slate-500/20', hex: '#64748b' };
   }
 };
+

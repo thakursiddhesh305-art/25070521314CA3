@@ -25,3 +25,4 @@ export const connectDB = async (): Promise<void> => {
     console.warn('👉 Verify MONGODB_URI in server/.env (e.g. mongodb://127.0.0.1:27017/spendpulse_expense_db)');
   }
 };
+

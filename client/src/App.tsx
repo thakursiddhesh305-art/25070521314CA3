@@ -13,18 +13,12 @@ import { sounds } from './utils/soundEffects';
 import {
   BarChart3,
   Receipt,
-  User,
-  Activity,
-  Layers,
-  Calendar,
-  Sparkles,
   AlertCircle,
-  Database,
   ArrowRight,
+  Sparkles,
 } from 'lucide-react';
 
 export const App: React.FC = () => {
-  // Core Application State
   const [users, setUsers] = useState<IUser[]>([]);
   const [currentUser, setCurrentUser] = useState<IUser | null>(null);
   const [period, setPeriod] = useState<'month' | '30days' | 'year' | 'all'>('month');
@@ -33,7 +27,7 @@ export const App: React.FC = () => {
   const [categories, setCategories] = useState<string[]>([]);
   const [paymentMethods, setPaymentMethods] = useState<string[]>([]);
 
-  // Filtering & Pagination
+  // Filtering
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('All');
@@ -52,19 +46,16 @@ export const App: React.FC = () => {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isCreateUserMode, setIsCreateUserMode] = useState(false);
 
-  // 1. Initial Load of Users & Meta
   useEffect(() => {
     const initApp = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        // Fetch meta
         const meta = await api.getMeta().catch(() => ({ categories: [], paymentMethods: [] }));
         setCategories(meta.categories || []);
         setPaymentMethods(meta.paymentMethods || []);
 
-        // Fetch users
         const fetchedUsers = await api.getUsers();
         setUsers(fetchedUsers);
 
@@ -73,7 +64,7 @@ export const App: React.FC = () => {
         }
       } catch (err: any) {
         console.error('Initial load failed:', err);
-        setError('Failed to connect to backend or MongoDB. Ensure the server is running on port 5050.');
+        setError('Failed to connect to backend server. Make sure MongoDB & Express are active on port 5050.');
       } finally {
         setLoading(false);
       }
@@ -82,16 +73,13 @@ export const App: React.FC = () => {
     initApp();
   }, []);
 
-  // 2. Fetch Stats & Expenses whenever currentUser or period or filters change
   const refreshData = useCallback(async () => {
     if (!currentUser) return;
     try {
       setError(null);
-      // Fetch comprehensive overview stats (total expenses + user stats)
       const statsData = await api.getOverviewStats(currentUser._id, period);
       setStats(statsData);
 
-      // Fetch expenses with active filter
       const filterParams: Record<string, any> = {
         userId: currentUser._id,
         sort: sortBy,
@@ -101,7 +89,6 @@ export const App: React.FC = () => {
       if (selectedPaymentMethod !== 'All') filterParams.paymentMethod = selectedPaymentMethod;
       if (searchQuery.trim()) filterParams.search = searchQuery.trim();
 
-      // For period date range filtering in the ledger
       const now = new Date();
       if (period === 'month') {
         filterParams.startDate = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
@@ -125,29 +112,25 @@ export const App: React.FC = () => {
     }
   }, [currentUser, period, selectedCategory, selectedPaymentMethod, searchQuery, sortBy, refreshData]);
 
-  // Handle Switch User
   const handleSelectUser = (user: IUser) => {
     setCurrentUser(user);
-    // Reset filters
     setSearchQuery('');
     setSelectedCategory('All');
     setSelectedPaymentMethod('All');
   };
 
-  // Handle Seed Reset
   const handleResetSeed = async () => {
     try {
       setIsResetting(true);
       await api.resetSeedData();
       sounds.playSuccess();
       confetti({
-        particleCount: 100,
-        spread: 70,
+        particleCount: 80,
+        spread: 60,
         origin: { y: 0.6 },
-        colors: ['#3b82f6', '#06b6d4', '#10b981', '#f59e0b', '#ec4899'],
+        colors: ['#6366f1', '#06b6d4', '#10b981', '#f59e0b', '#ec4899'],
       });
 
-      // Reload users & data
       const refreshedUsers = await api.getUsers();
       setUsers(refreshedUsers);
       if (refreshedUsers.length > 0) {
@@ -160,14 +143,13 @@ export const App: React.FC = () => {
     }
   };
 
-  // Handle Save Expense (Create or Update)
   const handleSaveExpense = async (data: Partial<IExpense>) => {
     if (editingExpense) {
       await api.updateExpense(editingExpense._id, data);
     } else {
       await api.createExpense(data);
       confetti({
-        particleCount: 40,
+        particleCount: 35,
         spread: 45,
         origin: { y: 0.8 },
       });
@@ -175,16 +157,14 @@ export const App: React.FC = () => {
     await refreshData();
   };
 
-  // Handle Delete Expense
   const handleDeleteExpense = async (id: string) => {
-    if (window.confirm('Are you sure you want to delete this expense record?')) {
+    if (window.confirm('Delete this expense record?')) {
       sounds.playWarning();
       await api.deleteExpense(id);
       await refreshData();
     }
   };
 
-  // Handle Save User Profile
   const handleSaveUser = async (data: Partial<IUser>) => {
     if (isCreateUserMode) {
       const newUser = await api.createUser(data);
@@ -200,7 +180,6 @@ export const App: React.FC = () => {
     await refreshData();
   };
 
-  // Export CSV
   const handleExportCSV = () => {
     sounds.playClick();
     if (expenses.length === 0) {
@@ -226,7 +205,7 @@ export const App: React.FC = () => {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `spendpulse_expenses_${currentUser?.name.replace(/\s+/g, '_')}_${period}.csv`);
+    link.setAttribute('download', `spendpulse_${currentUser?.name.replace(/\s+/g, '_')}_${period}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -242,8 +221,11 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0b0f19] text-slate-100 flex flex-col font-sans selection:bg-blue-600 selection:text-white">
-      {/* Top Navbar */}
+    <div className="min-h-screen bg-[#08090d] text-zinc-100 flex flex-col font-sans selection:bg-indigo-500/30 selection:text-white relative">
+      {/* Ambient background light spotlight */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.08),rgba(0,0,0,0))] pointer-events-none" />
+
+      {/* Navbar */}
       <Navbar
         users={users}
         currentUser={currentUser}
@@ -267,39 +249,39 @@ export const App: React.FC = () => {
         }}
       />
 
-      {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {/* Error Alert if any */}
+      {/* Main Content */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-7 space-y-7 relative z-10">
+        {/* Error notification */}
         {error && (
-          <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300 flex items-center justify-between text-sm shadow-xl">
-            <div className="flex items-center gap-3">
-              <AlertCircle className="w-5 h-5 flex-shrink-0 text-rose-400" />
+          <div className="p-3.5 rounded-2xl bg-rose-500/10 border border-rose-500/25 text-rose-300 flex items-center justify-between text-xs animate-enter">
+            <div className="flex items-center gap-2.5">
+              <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-400" />
               <span>{error}</span>
             </div>
             <button
               onClick={() => setError(null)}
-              className="text-xs uppercase font-bold px-3 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-white"
+              className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-md bg-rose-500/20 text-white"
             >
               Dismiss
             </button>
           </div>
         )}
 
-        {/* View Toggle Tabs */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
-          <div className="flex items-center gap-2 bg-slate-900/80 p-1.5 rounded-xl border border-slate-800 text-xs font-semibold">
+        {/* View Segmented Tabs */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/[0.06] pb-3.5">
+          <div className="flex items-center bg-white/[0.03] p-1 rounded-xl border border-white/[0.06]">
             <button
               onClick={() => {
                 sounds.playClick();
                 setActiveTab('dashboard');
               }}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-all ${
                 activeTab === 'dashboard'
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30 font-bold'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                  ? 'bg-white/[0.1] text-white font-semibold shadow-sm'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]'
               }`}
             >
-              <BarChart3 className="w-4 h-4" />
+              <BarChart3 className="w-3.5 h-3.5" strokeWidth={1.75} />
               <span>Analytics & Demographics</span>
             </button>
             <button
@@ -307,41 +289,41 @@ export const App: React.FC = () => {
                 sounds.playClick();
                 setActiveTab('ledger');
               }}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-all ${
                 activeTab === 'ledger'
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30 font-bold'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                  ? 'bg-white/[0.1] text-white font-semibold shadow-sm'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]'
               }`}
             >
-              <Receipt className="w-4 h-4" />
-              <span>Expense Ledger ({expenses.length})</span>
+              <Receipt className="w-3.5 h-3.5" strokeWidth={1.75} />
+              <span>Ledger ({expenses.length})</span>
             </button>
           </div>
 
-          <div className="text-xs text-slate-400 flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-            <span>MongoDB Connected: <strong className="text-slate-200">spendpulse_expense_db</strong></span>
+          <div className="text-[11px] font-mono text-zinc-500 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
+            <span>MongoDB: <strong className="text-zinc-400">spendpulse_expense_db</strong></span>
           </div>
         </div>
 
-        {/* Loading Skeleton */}
+        {/* Loading Shimmer */}
         {loading && (
-          <div className="space-y-6 animate-pulse">
-            <div className="h-44 bg-slate-900/80 rounded-2xl border border-slate-800" />
+          <div className="space-y-6">
+            <div className="h-40 rounded-3xl border border-white/[0.05] shimmer-effect" />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="h-28 bg-slate-900/80 rounded-2xl border border-slate-800" />
-              <div className="h-28 bg-slate-900/80 rounded-2xl border border-slate-800" />
-              <div className="h-28 bg-slate-900/80 rounded-2xl border border-slate-800" />
-              <div className="h-28 bg-slate-900/80 rounded-2xl border border-slate-800" />
+              <div className="h-24 rounded-2xl border border-white/[0.05] shimmer-effect" />
+              <div className="h-24 rounded-2xl border border-white/[0.05] shimmer-effect" />
+              <div className="h-24 rounded-2xl border border-white/[0.05] shimmer-effect" />
+              <div className="h-24 rounded-2xl border border-white/[0.05] shimmer-effect" />
             </div>
-            <div className="h-72 bg-slate-900/80 rounded-2xl border border-slate-800" />
+            <div className="h-64 rounded-3xl border border-white/[0.05] shimmer-effect" />
           </div>
         )}
 
-        {/* TAB 1: DASHBOARD & USER DEMOGRAPHICS */}
+        {/* TAB 1: ANALYTICS & USER DEMOGRAPHICS */}
         {!loading && stats && activeTab === 'dashboard' && (
-          <div className="space-y-8 animate-fade-in">
-            {/* USER STATS SECTION (Requirement: "also show stats of the user too") */}
+          <div className="space-y-7 animate-enter">
+            {/* USER STATS (Requirement: "also show stats of the user too") */}
             <UserStatsCard
               userStats={stats.userStats}
               currencySymbol={currentUser?.currencySymbol || '$'}
@@ -352,21 +334,21 @@ export const App: React.FC = () => {
               }}
             />
 
-            {/* EXPENSE STATS SECTION (Requirement: "Which shows stats depending upon the total expenses") */}
+            {/* EXPENSE STATS (Requirement: "Which shows stats depending upon the total expenses") */}
             <StatsOverview
               stats={stats}
               currencySymbol={currentUser?.currencySymbol || '$'}
             />
 
             {/* Quick Link to Ledger */}
-            <div className="bg-gradient-to-r from-blue-900/30 to-cyan-900/20 border border-blue-500/20 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="glass-panel glass-panel-hover rounded-3xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                  <Receipt className="w-4 h-4 text-cyan-400" />
-                  Detailed Transaction Records
+                <h4 className="text-xs sm:text-sm font-semibold text-white flex items-center gap-1.5">
+                  <Receipt className="w-3.5 h-3.5 text-indigo-400" />
+                  Detailed Ledger History
                 </h4>
-                <p className="text-xs text-slate-400 mt-0.5">
-                  View, filter, edit, or export individual expense rows recorded in MongoDB for {currentUser?.name}.
+                <p className="text-[11px] text-zinc-500 mt-0.5">
+                  Filter, search, inspect, or export all transactions for {currentUser?.name}.
                 </p>
               </div>
               <button
@@ -374,19 +356,18 @@ export const App: React.FC = () => {
                   sounds.playClick();
                   setActiveTab('ledger');
                 }}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"
+                className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-medium text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] transition active:scale-95"
               >
-                <span>Open Full Ledger</span>
-                <ArrowRight className="w-4 h-4 text-blue-400" />
+                <span>View All Records</span>
+                <ArrowRight className="w-3 h-3 text-zinc-400" />
               </button>
             </div>
           </div>
         )}
 
-        {/* TAB 2: EXPENSE LEDGER */}
+        {/* TAB 2: LEDGER */}
         {!loading && activeTab === 'ledger' && (
-          <div className="space-y-6 animate-fade-in">
-            {/* Filter Toolbar */}
+          <div className="space-y-5 animate-enter">
             <FilterToolbar
               searchQuery={searchQuery}
               onSearchChange={setSearchQuery}
@@ -408,7 +389,6 @@ export const App: React.FC = () => {
               totalFilteredCount={expenses.length}
             />
 
-            {/* Expense List Table */}
             <ExpenseList
               expenses={expenses}
               currencySymbol={currentUser?.currencySymbol || '$'}
@@ -423,19 +403,19 @@ export const App: React.FC = () => {
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-800/80 bg-[#070b14] py-8 text-center text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      {/* Minimalist Footer */}
+      <footer className="border-t border-white/[0.04] py-6 text-center text-[11px] text-zinc-600">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p>
-            ⚡ <strong>SpendPulse</strong> — Enterprise Expense Intelligence & User Financial Demographics Platform
+            SpendPulse • Modern Expense Intelligence & User Demographics
           </p>
-          <p className="font-mono text-[11px] text-slate-600">
-            Node.js • Express • MongoDB Mongoose • React • TypeScript • Tailwind CSS
+          <p className="font-mono text-zinc-600">
+            Node.js • Express • MongoDB • React • TypeScript • Tailwind
           </p>
         </div>
       </footer>
 
-      {/* Expense Modal (Add / Edit) */}
+      {/* Expense Modal */}
       <ExpenseModal
         isOpen={isExpenseModalOpen}
         onClose={() => {
@@ -449,7 +429,7 @@ export const App: React.FC = () => {
         paymentMethods={paymentMethods}
       />
 
-      {/* User Profile Modal (Edit / Create) */}
+      {/* User Profile Modal */}
       <UserProfileModal
         isOpen={isUserModalOpen}
         onClose={() => setIsUserModalOpen(false)}
