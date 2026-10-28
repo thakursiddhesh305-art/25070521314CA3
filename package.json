@@ -1,0 +1,15 @@
+{
+  "name": "spendpulse-expense-tracker",
+  "version": "1.0.0",
+  "description": "SpendPulse — Advanced Expense Intelligence & Financial Demographics Platform (MongoDB, Node.js, Express, React, TypeScript)",
+  "scripts": {
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"magenta,cyan\" \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "build": "npm run build --prefix server && npm run build --prefix client",
+    "seed": "npm run seed --prefix server",
+    "start": "npm run start --prefix server",
+    "install:all": "npm install && npm install --prefix server && npm install --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
