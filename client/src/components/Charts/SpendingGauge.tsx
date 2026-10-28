@@ -27,12 +27,12 @@ export const SpendingGauge: React.FC<SpendingGaugeProps> = ({
 
   const getTierIcon = () => {
     if (burnTier.id === 'critical' || burnTier.id === 'high-risk') {
-      return <Flame className="w-3.5 h-3.5 text-rose-400" />;
+      return <Flame className="w-3.5 h-3.5 text-rose-500" />;
     }
     if (burnTier.id === 'caution' || burnTier.id === 'moderate') {
-      return <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />;
+      return <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />;
     }
-    return <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />;
+    return <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />;
   };
 
   const getStrokeGradient = () => {
@@ -49,21 +49,21 @@ export const SpendingGauge: React.FC<SpendingGaugeProps> = ({
 
   return (
     <div className="glass-panel glass-panel-hover rounded-3xl p-6 sm:p-7 relative overflow-hidden flex flex-col justify-between">
-      {/* Background ambient glow */}
+      {/* Background ambient pastel aura */}
       <div
-        className={`absolute -top-16 -right-16 w-52 h-52 rounded-full blur-3xl opacity-15 pointer-events-none transition-all duration-700 ${
-          burnTier.id === 'critical' ? 'bg-rose-500' : burnTier.id === 'caution' ? 'bg-amber-500' : 'bg-emerald-500'
+        className={`absolute -top-16 -right-16 w-52 h-52 rounded-full blur-3xl opacity-20 pointer-events-none transition-all duration-700 ${
+          burnTier.id === 'critical' ? 'bg-rose-400' : burnTier.id === 'caution' ? 'bg-amber-400' : 'bg-emerald-400'
         }`}
       />
 
       <div className="flex items-center justify-between mb-2">
         <div>
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">Burn Trajectory</span>
-          <h4 className="text-base font-bold text-white tracking-tight mt-0.5">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Burn Trajectory</span>
+          <h4 className="text-base font-extrabold text-slate-900 tracking-tight mt-0.5">
             Depletion Velocity
           </h4>
         </div>
-        <div className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-white/[0.04] border border-white/[0.08] text-zinc-300">
+        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white/80 border border-slate-200/80 text-slate-700 shadow-xs">
           {getTierIcon()}
           <span>{burnTier.badge}</span>
         </div>
@@ -91,8 +91,8 @@ export const SpendingGauge: React.FC<SpendingGaugeProps> = ({
           <path
             d="M 15 90 A 75 75 0 0 1 165 90"
             fill="none"
-            stroke="rgba(255, 255, 255, 0.06)"
-            strokeWidth="11"
+            stroke="rgba(226, 232, 240, 0.9)"
+            strokeWidth="12"
             strokeLinecap="round"
           />
 
@@ -101,7 +101,7 @@ export const SpendingGauge: React.FC<SpendingGaugeProps> = ({
             d="M 15 90 A 75 75 0 0 1 165 90"
             fill="none"
             stroke={getStrokeGradient()}
-            strokeWidth="11"
+            strokeWidth="12"
             strokeLinecap="round"
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}
@@ -111,27 +111,27 @@ export const SpendingGauge: React.FC<SpendingGaugeProps> = ({
 
         {/* Center Readout */}
         <div className="absolute bottom-1 text-center">
-          <div className="text-3xl font-extrabold text-white font-mono tracking-tight flex items-baseline justify-center tabular-nums">
+          <div className="text-3xl font-extrabold text-slate-900 font-mono tracking-tight flex items-baseline justify-center tabular-nums">
             {budgetConsumedPercent.toFixed(1)}
-            <span className="text-sm font-sans font-medium text-zinc-500 ml-0.5">%</span>
+            <span className="text-sm font-sans font-bold text-slate-400 ml-0.5">%</span>
           </div>
-          <span className="text-[11px] text-zinc-500 font-medium">Budget Consumed</span>
+          <span className="text-[11px] text-slate-500 font-semibold">Budget Consumed</span>
         </div>
       </div>
 
       {/* Details Row */}
-      <div className="grid grid-cols-2 gap-2.5 mt-3 pt-3 border-t border-white/[0.06] text-xs">
-        <div className="bg-white/[0.02] p-2.5 rounded-xl border border-white/[0.04]">
-          <span className="text-zinc-500 text-[10px] uppercase font-semibold block">Remaining</span>
-          <span className={`font-mono font-bold text-sm tabular-nums ${remaining === 0 ? 'text-rose-400' : 'text-emerald-400'}`}>
+      <div className="grid grid-cols-2 gap-2.5 mt-3 pt-3 border-t border-slate-100 text-xs">
+        <div className="bg-white/70 p-3 rounded-2xl border border-slate-100 shadow-xs">
+          <span className="text-slate-400 text-[10px] uppercase font-bold block">Remaining Buffer</span>
+          <span className={`font-mono font-extrabold text-sm tabular-nums ${remaining === 0 ? 'text-rose-600' : 'text-emerald-600'}`}>
             {formatCurrency(remaining, currencySymbol)}
           </span>
         </div>
-        <div className="bg-white/[0.02] p-2.5 rounded-xl border border-white/[0.04]">
-          <span className="text-zinc-500 text-[10px] uppercase font-semibold block flex items-center gap-1">
-            <Zap className="w-2.5 h-2.5 text-cyan-400" /> Daily Burn
+        <div className="bg-white/70 p-3 rounded-2xl border border-slate-100 shadow-xs">
+          <span className="text-slate-400 text-[10px] uppercase font-bold block flex items-center gap-1">
+            <Zap className="w-2.5 h-2.5 text-cyan-600" /> Daily Burn
           </span>
-          <span className="font-mono font-bold text-sm text-cyan-300 tabular-nums">
+          <span className="font-mono font-extrabold text-sm text-cyan-700 tabular-nums">
             {formatCurrency(dailyVelocity, currencySymbol)}
           </span>
         </div>

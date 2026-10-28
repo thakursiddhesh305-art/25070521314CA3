@@ -18,9 +18,9 @@ export const CategoryDonutChart: React.FC<CategoryDonutChartProps> = ({
 
   if (!categories || categories.length === 0 || totalExpenses === 0) {
     return (
-      <div className="glass-panel rounded-3xl p-6 flex flex-col items-center justify-center min-h-[340px] text-zinc-500">
-        <PieChart className="w-10 h-10 mb-2 stroke-1 text-zinc-600" />
-        <p className="text-xs">No records for this period</p>
+      <div className="glass-panel rounded-3xl p-6 flex flex-col items-center justify-center min-h-[340px] text-slate-400">
+        <PieChart className="w-10 h-10 mb-2 stroke-1 text-slate-300" />
+        <p className="text-xs font-medium">No records for this period</p>
       </div>
     );
   }
@@ -53,12 +53,12 @@ export const CategoryDonutChart: React.FC<CategoryDonutChartProps> = ({
     <div className="glass-panel glass-panel-hover rounded-3xl p-6 sm:p-7 flex flex-col justify-between">
       <div className="flex items-center justify-between mb-2">
         <div>
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">Allocation</span>
-          <h4 className="text-base font-bold text-white tracking-tight mt-0.5">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Allocation</span>
+          <h4 className="text-base font-extrabold text-slate-900 tracking-tight mt-0.5">
             Category Breakdown
           </h4>
         </div>
-        <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded-full bg-white/[0.04] text-zinc-400 border border-white/[0.06]">
+        <span className="text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">
           {categories.length} Categories
         </span>
       </div>
@@ -80,7 +80,7 @@ export const CategoryDonutChart: React.FC<CategoryDonutChartProps> = ({
                 strokeDashoffset={slice.strokeDashoffset}
                 className="transition-all duration-300 cursor-pointer hover:opacity-85"
                 style={{
-                  filter: activeCategory?.category === slice.category ? 'drop-shadow(0 0 8px rgba(255,255,255,0.3))' : 'none',
+                  filter: activeCategory?.category === slice.category ? 'drop-shadow(0 0 6px rgba(0,0,0,0.15))' : 'none',
                 }}
                 onMouseEnter={() => setActiveCategory(slice)}
               />
@@ -89,13 +89,13 @@ export const CategoryDonutChart: React.FC<CategoryDonutChartProps> = ({
 
           {/* Center Donut Readout */}
           <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center px-2">
-            <span className="text-[11px] font-medium text-zinc-400 truncate max-w-[95px]">
+            <span className="text-[11px] font-bold text-slate-500 truncate max-w-[95px]">
               {displayItem.category.split(' ')[0]}
             </span>
-            <span className="text-sm font-bold text-white font-mono leading-tight tabular-nums">
+            <span className="text-sm font-extrabold text-slate-900 font-mono leading-tight tabular-nums">
               {formatCurrency(displayItem.amount, currencySymbol)}
             </span>
-            <span className="text-[10px] font-semibold text-emerald-400 font-mono">
+            <span className="text-[10px] font-extrabold text-emerald-600 font-mono">
               {displayItem.percentage}%
             </span>
           </div>
@@ -110,21 +110,21 @@ export const CategoryDonutChart: React.FC<CategoryDonutChartProps> = ({
               <div
                 key={cat.category}
                 onMouseEnter={() => setActiveCategory(cat)}
-                className={`p-2 rounded-xl transition-all cursor-pointer border ${
-                  isHovered ? 'bg-white/[0.06] border-white/[0.12]' : 'bg-white/[0.02] border-transparent hover:border-white/[0.06]'
+                className={`p-2.5 rounded-2xl transition-all cursor-pointer border ${
+                  isHovered ? 'bg-white border-slate-200/90 shadow-xs' : 'bg-white/60 border-transparent hover:border-slate-100'
                 }`}
               >
                 <div className="flex items-center justify-between text-xs mb-1">
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: color.hex }} />
-                    <span className="font-medium text-zinc-200">{cat.category}</span>
+                    <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: color.hex }} />
+                    <span className="font-semibold text-slate-800">{cat.category}</span>
                   </div>
                   <div className="flex items-center gap-2 font-mono text-[11px]">
-                    <span className="font-semibold text-white tabular-nums">{formatCurrency(cat.amount, currencySymbol)}</span>
-                    <span className="text-zinc-500 w-8 text-right font-sans">{cat.percentage}%</span>
+                    <span className="font-bold text-slate-900 tabular-nums">{formatCurrency(cat.amount, currencySymbol)}</span>
+                    <span className="text-slate-400 w-8 text-right font-sans font-semibold">{cat.percentage}%</span>
                   </div>
                 </div>
-                <div className="w-full bg-white/[0.06] rounded-full h-1 overflow-hidden">
+                <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden shadow-inner">
                   <div
                     className="h-full rounded-full transition-all duration-500"
                     style={{

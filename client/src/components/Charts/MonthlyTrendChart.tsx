@@ -17,7 +17,7 @@ export const MonthlyTrendChart: React.FC<MonthlyTrendChartProps> = ({
 
   if (!trends || trends.length === 0) {
     return (
-      <div className="glass-panel rounded-3xl p-6 flex items-center justify-center min-h-[280px] text-zinc-500 text-xs">
+      <div className="glass-panel rounded-3xl p-6 flex items-center justify-center min-h-[280px] text-slate-400 text-xs">
         No monthly trend history
       </div>
     );
@@ -29,18 +29,18 @@ export const MonthlyTrendChart: React.FC<MonthlyTrendChartProps> = ({
     <div className="glass-panel glass-panel-hover rounded-3xl p-6 sm:p-7 flex flex-col justify-between relative">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">Trajectory</span>
-          <h4 className="text-base font-bold text-white tracking-tight mt-0.5">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Trajectory</span>
+          <h4 className="text-base font-extrabold text-slate-900 tracking-tight mt-0.5">
             6-Month Velocity
           </h4>
         </div>
-        <div className="flex items-center gap-3 text-[11px] text-zinc-400">
+        <div className="flex items-center gap-3 text-[11px] text-slate-500 font-medium">
           <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-sm bg-gradient-to-t from-indigo-500 to-cyan-400" />
+            <span className="w-2.5 h-2.5 rounded-sm bg-gradient-to-t from-indigo-600 to-cyan-500" />
             <span>Monthly Outflow</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-0.5 border-t border-dashed border-rose-400" />
+            <span className="w-2.5 h-0.5 border-t-2 border-dashed border-rose-500" />
             <span>Budget Cap ({formatCompactNumber(monthlyBudget, currencySymbol)})</span>
           </div>
         </div>
@@ -50,12 +50,12 @@ export const MonthlyTrendChart: React.FC<MonthlyTrendChartProps> = ({
       <div className="relative pt-6 pb-2">
         {/* Budget Limit line */}
         <div
-          className="absolute left-0 right-0 border-t border-dashed border-rose-500/40 z-10 pointer-events-none flex items-center justify-end pr-1"
+          className="absolute left-0 right-0 border-t-2 border-dashed border-rose-400/70 z-10 pointer-events-none flex items-center justify-end pr-1"
           style={{
             bottom: `${Math.min(100, (monthlyBudget / maxSpend) * 100)}%`,
           }}
         >
-          <span className="text-[9px] font-mono font-medium text-rose-400 bg-[#12141d] px-1 rounded -translate-y-2">
+          <span className="text-[10px] font-mono font-bold text-rose-600 bg-white/90 px-1.5 py-0.5 rounded-md border border-rose-100 shadow-xs -translate-y-2.5">
             Budget Cap
           </span>
         </div>
@@ -74,35 +74,35 @@ export const MonthlyTrendChart: React.FC<MonthlyTrendChartProps> = ({
                 onMouseEnter={() => setHoveredIdx(index)}
                 onMouseLeave={() => setHoveredIdx(null)}
               >
-                {/* Floating Tooltip */}
+                {/* Floating Bright Tooltip */}
                 {isHovered && (
-                  <div className="absolute -top-12 z-20 bg-[#141724] border border-white/[0.12] px-2.5 py-1.5 rounded-xl shadow-2xl text-center whitespace-nowrap pointer-events-none animate-enter">
-                    <p className="text-[10px] text-zinc-400">{item.label}</p>
-                    <p className="text-xs font-bold font-mono text-white tabular-nums">
+                  <div className="absolute -top-12 z-20 bg-white border border-slate-200/90 px-2.5 py-1.5 rounded-xl shadow-xl text-center whitespace-nowrap pointer-events-none animate-enter">
+                    <p className="text-[10px] text-slate-400 font-semibold">{item.label}</p>
+                    <p className="text-xs font-bold font-mono text-slate-900 tabular-nums">
                       {formatCurrency(item.total, currencySymbol)}
                     </p>
                   </div>
                 )}
 
                 {/* Amount on hover */}
-                <span className="text-[10px] font-mono text-zinc-400 mb-1 opacity-0 group-hover:opacity-100 transition-opacity tabular-nums">
+                <span className="text-[10px] font-mono text-slate-500 font-bold mb-1 opacity-0 group-hover:opacity-100 transition-opacity tabular-nums">
                   {formatCompactNumber(item.total, currencySymbol)}
                 </span>
 
                 {/* Bar */}
-                <div className="w-full max-w-[38px] bg-white/[0.03] rounded-t-lg overflow-hidden flex flex-col justify-end p-0.5">
+                <div className="w-full max-w-[38px] bg-slate-100/90 rounded-t-xl overflow-hidden flex flex-col justify-end p-0.5 shadow-inner">
                   <div
-                    className={`w-full rounded-t-md transition-all duration-700 ease-out ${
+                    className={`w-full rounded-t-lg transition-all duration-700 ease-out ${
                       isOverBudget
-                        ? 'bg-gradient-to-t from-rose-600 to-amber-400 shadow-[0_0_10px_rgba(244,63,94,0.3)]'
-                        : 'bg-gradient-to-t from-indigo-500 to-cyan-400 group-hover:brightness-110'
+                        ? 'bg-gradient-to-t from-rose-500 to-amber-500 shadow-md shadow-rose-500/20'
+                        : 'bg-gradient-to-t from-indigo-600 to-cyan-500 group-hover:brightness-105 shadow-md shadow-indigo-500/15'
                     }`}
                     style={{ height: `${barHeightPercent}%` }}
                   />
                 </div>
 
                 {/* Month Label */}
-                <span className="text-[11px] font-medium text-zinc-400 mt-2 tracking-tight">
+                <span className="text-[11px] font-bold text-slate-500 mt-2 tracking-tight">
                   {item.label.split(' ')[0]}
                 </span>
               </div>

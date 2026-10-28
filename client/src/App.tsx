@@ -15,7 +15,6 @@ import {
   Receipt,
   AlertCircle,
   ArrowRight,
-  Sparkles,
 } from 'lucide-react';
 
 export const App: React.FC = () => {
@@ -128,7 +127,7 @@ export const App: React.FC = () => {
         particleCount: 80,
         spread: 60,
         origin: { y: 0.6 },
-        colors: ['#6366f1', '#06b6d4', '#10b981', '#f59e0b', '#ec4899'],
+        colors: ['#4f46e5', '#06b6d4', '#10b981', '#f59e0b', '#ec4899'],
       });
 
       const refreshedUsers = await api.getUsers();
@@ -149,7 +148,7 @@ export const App: React.FC = () => {
     } else {
       await api.createExpense(data);
       confetti({
-        particleCount: 35,
+        particleCount: 40,
         spread: 45,
         origin: { y: 0.8 },
       });
@@ -221,9 +220,11 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#08090d] text-zinc-100 flex flex-col font-sans selection:bg-indigo-500/30 selection:text-white relative">
-      {/* Ambient background light spotlight */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.08),rgba(0,0,0,0))] pointer-events-none" />
+    <div className="min-h-screen bg-[#f4f7fb] text-slate-800 flex flex-col font-sans selection:bg-indigo-500 selection:text-white relative overflow-x-hidden">
+      {/* Translucent Floating Mesh Orbs for authentic Bright Glassmorphism */}
+      <div className="fixed top-[-80px] left-[-60px] w-[550px] h-[550px] rounded-full bg-gradient-to-tr from-indigo-300/35 to-violet-300/25 blur-3xl pointer-events-none animate-float-1" />
+      <div className="fixed top-[25%] right-[-100px] w-[600px] h-[600px] rounded-full bg-gradient-to-bl from-pink-300/25 to-sky-300/30 blur-3xl pointer-events-none animate-float-2" />
+      <div className="fixed bottom-[-100px] left-[25%] w-[650px] h-[500px] rounded-full bg-gradient-to-r from-teal-200/25 to-indigo-200/25 blur-3xl pointer-events-none" />
 
       {/* Navbar */}
       <Navbar
@@ -253,14 +254,14 @@ export const App: React.FC = () => {
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-7 space-y-7 relative z-10">
         {/* Error notification */}
         {error && (
-          <div className="p-3.5 rounded-2xl bg-rose-500/10 border border-rose-500/25 text-rose-300 flex items-center justify-between text-xs animate-enter">
+          <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 flex items-center justify-between text-xs font-semibold shadow-xs animate-enter">
             <div className="flex items-center gap-2.5">
-              <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-400" />
+              <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-500" />
               <span>{error}</span>
             </div>
             <button
               onClick={() => setError(null)}
-              className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-md bg-rose-500/20 text-white"
+              className="text-[10px] uppercase font-bold px-2.5 py-1 rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-800"
             >
               Dismiss
             </button>
@@ -268,20 +269,20 @@ export const App: React.FC = () => {
         )}
 
         {/* View Segmented Tabs */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/[0.06] pb-3.5">
-          <div className="flex items-center bg-white/[0.03] p-1 rounded-xl border border-white/[0.06]">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200/60 pb-3.5">
+          <div className="flex items-center bg-slate-200/60 backdrop-blur-md p-1 rounded-2xl border border-white/60 shadow-inner">
             <button
               onClick={() => {
                 sounds.playClick();
                 setActiveTab('dashboard');
               }}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-all ${
+              className={`flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${
                 activeTab === 'dashboard'
-                  ? 'bg-white/[0.1] text-white font-semibold shadow-sm'
-                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]'
+                  ? 'bg-white text-indigo-700 shadow-md shadow-indigo-950/5'
+                  : 'text-slate-500 hover:text-slate-800 hover:bg-white/40'
               }`}
             >
-              <BarChart3 className="w-3.5 h-3.5" strokeWidth={1.75} />
+              <BarChart3 className="w-3.5 h-3.5" strokeWidth={2} />
               <span>Analytics & Demographics</span>
             </button>
             <button
@@ -289,34 +290,34 @@ export const App: React.FC = () => {
                 sounds.playClick();
                 setActiveTab('ledger');
               }}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-all ${
+              className={`flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${
                 activeTab === 'ledger'
-                  ? 'bg-white/[0.1] text-white font-semibold shadow-sm'
-                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]'
+                  ? 'bg-white text-indigo-700 shadow-md shadow-indigo-950/5'
+                  : 'text-slate-500 hover:text-slate-800 hover:bg-white/40'
               }`}
             >
-              <Receipt className="w-3.5 h-3.5" strokeWidth={1.75} />
+              <Receipt className="w-3.5 h-3.5" strokeWidth={2} />
               <span>Ledger ({expenses.length})</span>
             </button>
           </div>
 
-          <div className="text-[11px] font-mono text-zinc-500 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
-            <span>MongoDB: <strong className="text-zinc-400">spendpulse_expense_db</strong></span>
+          <div className="text-[11px] font-mono text-slate-500 flex items-center gap-2 font-medium">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse" />
+            <span>MongoDB Active: <strong className="text-slate-800 font-bold">spendpulse_expense_db</strong></span>
           </div>
         </div>
 
         {/* Loading Shimmer */}
         {loading && (
           <div className="space-y-6">
-            <div className="h-40 rounded-3xl border border-white/[0.05] shimmer-effect" />
+            <div className="h-40 rounded-3xl glass-panel shimmer-bright" />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="h-24 rounded-2xl border border-white/[0.05] shimmer-effect" />
-              <div className="h-24 rounded-2xl border border-white/[0.05] shimmer-effect" />
-              <div className="h-24 rounded-2xl border border-white/[0.05] shimmer-effect" />
-              <div className="h-24 rounded-2xl border border-white/[0.05] shimmer-effect" />
+              <div className="h-24 rounded-2xl glass-panel shimmer-bright" />
+              <div className="h-24 rounded-2xl glass-panel shimmer-bright" />
+              <div className="h-24 rounded-2xl glass-panel shimmer-bright" />
+              <div className="h-24 rounded-2xl glass-panel shimmer-bright" />
             </div>
-            <div className="h-64 rounded-3xl border border-white/[0.05] shimmer-effect" />
+            <div className="h-64 rounded-3xl glass-panel shimmer-bright" />
           </div>
         )}
 
@@ -343,11 +344,11 @@ export const App: React.FC = () => {
             {/* Quick Link to Ledger */}
             <div className="glass-panel glass-panel-hover rounded-3xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h4 className="text-xs sm:text-sm font-semibold text-white flex items-center gap-1.5">
-                  <Receipt className="w-3.5 h-3.5 text-indigo-400" />
+                <h4 className="text-xs sm:text-sm font-extrabold text-slate-900 flex items-center gap-1.5">
+                  <Receipt className="w-3.5 h-3.5 text-indigo-600" />
                   Detailed Ledger History
                 </h4>
-                <p className="text-[11px] text-zinc-500 mt-0.5">
+                <p className="text-[11px] text-slate-500 mt-0.5 font-medium">
                   Filter, search, inspect, or export all transactions for {currentUser?.name}.
                 </p>
               </div>
@@ -356,10 +357,10 @@ export const App: React.FC = () => {
                   sounds.playClick();
                   setActiveTab('ledger');
                 }}
-                className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-medium text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] transition active:scale-95"
+                className="flex items-center gap-1 px-3.5 py-2 rounded-2xl text-xs font-bold text-slate-700 hover:text-indigo-600 bg-white hover:bg-slate-50 border border-slate-200/90 shadow-xs transition active:scale-95"
               >
                 <span>View All Records</span>
-                <ArrowRight className="w-3 h-3 text-zinc-400" />
+                <ArrowRight className="w-3 h-3 text-slate-500" />
               </button>
             </div>
           </div>
@@ -403,13 +404,13 @@ export const App: React.FC = () => {
         )}
       </main>
 
-      {/* Minimalist Footer */}
-      <footer className="border-t border-white/[0.04] py-6 text-center text-[11px] text-zinc-600">
+      {/* Minimalist Bright Footer */}
+      <footer className="border-t border-slate-200/60 bg-white/40 backdrop-blur-md py-6 text-center text-xs text-slate-500 font-medium">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p>
-            SpendPulse • Modern Expense Intelligence & User Demographics
+            SpendPulse • Modern Bright Glassmorphism Expense Intelligence
           </p>
-          <p className="font-mono text-zinc-600">
+          <p className="font-mono text-slate-400 text-[11px]">
             Node.js • Express • MongoDB • React • TypeScript • Tailwind
           </p>
         </div>

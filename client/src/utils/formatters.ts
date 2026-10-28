@@ -35,31 +35,30 @@ export const formatTime = (dateString: string | Date): string => {
 export const getCategoryColor = (category: string): { bg: string; text: string; border: string; hex: string } => {
   switch (category) {
     case 'Housing & Rent':
-      return { bg: 'bg-indigo-500/10', text: 'text-indigo-400', border: 'border-indigo-500/20', hex: '#6366f1' };
+      return { bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200', hex: '#6366f1' };
     case 'Food & Groceries':
-      return { bg: 'bg-emerald-500/10', text: 'text-emerald-400', border: 'border-emerald-500/20', hex: '#10b981' };
+      return { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200', hex: '#10b981' };
     case 'Dining & Cafes':
-      return { bg: 'bg-amber-500/10', text: 'text-amber-400', border: 'border-amber-500/20', hex: '#f59e0b' };
+      return { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200', hex: '#f59e0b' };
     case 'Transportation & Gas':
-      return { bg: 'bg-sky-500/10', text: 'text-sky-400', border: 'border-sky-500/20', hex: '#0284c7' };
+      return { bg: 'bg-sky-50', text: 'text-sky-700', border: 'border-sky-200', hex: '#0284c7' };
     case 'Gadgets & Tech':
-      return { bg: 'bg-cyan-500/10', text: 'text-cyan-400', border: 'border-cyan-500/20', hex: '#06b6d4' };
+      return { bg: 'bg-cyan-50', text: 'text-cyan-700', border: 'border-cyan-200', hex: '#06b6d4' };
     case 'Utilities & Bills':
-      return { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/20', hex: '#3b82f6' };
+      return { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200', hex: '#3b82f6' };
     case 'Healthcare & Fitness':
-      return { bg: 'bg-rose-500/10', text: 'text-rose-400', border: 'border-rose-500/20', hex: '#f43f5e' };
+      return { bg: 'bg-rose-50', text: 'text-rose-700', border: 'border-rose-200', hex: '#f43f5e' };
     case 'Entertainment & Subscriptions':
-      return { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/20', hex: '#a855f7' };
+      return { bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200', hex: '#a855f7' };
     case 'Shopping & Lifestyle':
-      return { bg: 'bg-pink-500/10', text: 'text-pink-400', border: 'border-pink-500/20', hex: '#ec4899' };
+      return { bg: 'bg-pink-50', text: 'text-pink-700', border: 'border-pink-200', hex: '#ec4899' };
     case 'Travel & Vacation':
-      return { bg: 'bg-teal-500/10', text: 'text-teal-400', border: 'border-teal-500/20', hex: '#14b8a6' };
+      return { bg: 'bg-teal-50', text: 'text-teal-700', border: 'border-teal-200', hex: '#14b8a6' };
     case 'Education & Courses':
-      return { bg: 'bg-violet-500/10', text: 'text-violet-400', border: 'border-violet-500/20', hex: '#8b5cf6' };
+      return { bg: 'bg-violet-50', text: 'text-violet-700', border: 'border-violet-200', hex: '#8b5cf6' };
     case 'Investments & Savings':
-      return { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/20', hex: '#22c55e' };
+      return { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-200', hex: '#22c55e' };
     default:
-      return { bg: 'bg-slate-500/10', text: 'text-slate-400', border: 'border-slate-500/20', hex: '#64748b' };
+      return { bg: 'bg-slate-100', text: 'text-slate-700', border: 'border-slate-200', hex: '#64748b' };
   }
 };
-

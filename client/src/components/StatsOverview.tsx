@@ -6,7 +6,6 @@ import { CategoryDonutChart } from './Charts/CategoryDonutChart';
 import { MonthlyTrendChart } from './Charts/MonthlyTrendChart';
 import { PaymentMethodChart } from './Charts/PaymentMethodChart';
 import {
-  TrendingUp,
   DollarSign,
   Receipt,
   Zap,
@@ -16,7 +15,6 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   Sparkles,
-  PieChart,
 } from 'lucide-react';
 
 interface StatsOverviewProps {
@@ -40,7 +38,6 @@ export const StatsOverview: React.FC<StatsOverviewProps> = ({ stats, currencySym
     categoryBreakdown,
     paymentMethodBreakdown,
     monthlyTrends,
-    dayOfWeekStats,
     weekendSpend,
     weekdaySpend,
     recurringSpend,
@@ -51,96 +48,96 @@ export const StatsOverview: React.FC<StatsOverviewProps> = ({ stats, currencySym
     switch (burnTier.color) {
       case 'rose':
       case 'red':
-        return 'text-rose-400 bg-rose-500/10 border-rose-500/25';
+        return 'text-rose-700 bg-rose-50 border-rose-200';
       case 'amber':
-        return 'text-amber-400 bg-amber-500/10 border-amber-500/25';
+        return 'text-amber-800 bg-amber-50 border-amber-200';
       case 'yellow':
-        return 'text-yellow-400 bg-yellow-500/10 border-yellow-500/25';
+        return 'text-amber-700 bg-amber-50/80 border-amber-200';
       case 'teal':
-        return 'text-teal-400 bg-teal-500/10 border-teal-500/25';
+        return 'text-teal-700 bg-teal-50 border-teal-200';
       default:
-        return 'text-emerald-400 bg-emerald-500/10 border-emerald-500/25';
+        return 'text-emerald-700 bg-emerald-50 border-emerald-200';
     }
   };
 
   const getTierIcon = () => {
     if (burnTier.id === 'critical' || burnTier.id === 'high-risk') {
-      return <Flame className="w-4 h-4 text-rose-400 animate-pulse" strokeWidth={2} />;
+      return <Flame className="w-4 h-4 text-rose-500 animate-pulse" strokeWidth={2.2} />;
     }
     if (burnTier.id === 'caution' || burnTier.id === 'moderate') {
-      return <AlertTriangle className="w-4 h-4 text-amber-400" strokeWidth={2} />;
+      return <AlertTriangle className="w-4 h-4 text-amber-500" strokeWidth={2.2} />;
     }
-    return <ShieldCheck className="w-4 h-4 text-emerald-400" strokeWidth={2} />;
+    return <ShieldCheck className="w-4 h-4 text-emerald-600" strokeWidth={2.2} />;
   };
 
   return (
     <div className="space-y-6">
-      {/* 1. MINIMAL DYNAMIC BURN STATUS CAPSULE (Stats driven by totalExpenses) */}
-      <div className="glass-panel glass-panel-hover rounded-3xl p-5 sm:p-6 relative overflow-hidden">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
+      {/* 1. BRIGHT GLASS DYNAMIC BURN CAPSULE */}
+      <div className="glass-panel glass-panel-hover rounded-3xl p-6 sm:p-7 relative overflow-hidden">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
           <div className="space-y-2 flex-1">
             <div className="flex items-center gap-2.5 flex-wrap">
-              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${getTierPill()}`}>
+              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border shadow-xs ${getTierPill()}`}>
                 {getTierIcon()}
                 <span>{burnTier.badge}</span>
               </span>
-              <span className="text-xs text-zinc-400 font-mono">
+              <span className="text-xs text-slate-500 font-mono font-medium">
                 {budgetConsumedPercent.toFixed(1)}% of planned budget allocated
               </span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
+            <h3 className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">
               {burnTier.title}
             </h3>
-            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed max-w-2xl">
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl font-medium">
               {burnTier.description}
             </p>
           </div>
 
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-4 w-full lg:w-80 flex-shrink-0">
-            <div className="flex items-center gap-1.5 text-xs text-zinc-400 mb-1">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-              <span className="font-semibold uppercase text-[10px] tracking-wider text-zinc-500">Advisory Insight</span>
+          <div className="bg-white/70 border border-slate-200/70 rounded-2xl p-4 w-full lg:w-80 flex-shrink-0 shadow-sm">
+            <div className="flex items-center gap-1.5 text-xs text-slate-500 mb-1.5 font-bold">
+              <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
+              <span className="uppercase text-[10px] tracking-wider text-slate-400">Automated Advisor</span>
             </div>
-            <p className="text-xs text-zinc-300 leading-relaxed font-medium">
+            <p className="text-xs text-slate-700 leading-relaxed font-semibold">
               {burnTier.recommendation}
             </p>
           </div>
         </div>
       </div>
 
-      {/* 2. MINIMAL 4 METRIC TILES */}
+      {/* 2. 4 BRIGHT GLASS METRIC TILES */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total Expenses */}
         <div className="glass-panel glass-panel-hover rounded-2xl p-5">
-          <div className="flex items-center justify-between text-zinc-400 mb-2">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Total Outflow</span>
-            <div className="p-1.5 rounded-lg bg-white/[0.04] text-zinc-400">
-              <DollarSign className="w-4 h-4" strokeWidth={1.75} />
+          <div className="flex items-center justify-between text-slate-400 mb-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Outflow</span>
+            <div className="p-2 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-100">
+              <DollarSign className="w-4 h-4" strokeWidth={2} />
             </div>
           </div>
-          <div className="text-2xl sm:text-3xl font-bold text-white font-mono tracking-tight tabular-nums">
+          <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-mono tracking-tight tabular-nums">
             {formatCurrency(totalExpenses, currencySymbol)}
           </div>
-          <div className="flex items-center justify-between text-xs mt-3 pt-3 border-t border-white/[0.05] text-zinc-400">
-            <span>Volume: <strong className="text-zinc-200 font-mono">{expenseCount}</strong> tx</span>
-            <span className="text-emerald-400 text-[11px] font-medium">Active</span>
+          <div className="flex items-center justify-between text-xs mt-3 pt-3 border-t border-slate-100 text-slate-500 font-medium">
+            <span>Volume: <strong className="text-slate-800 font-mono">{expenseCount}</strong> tx</span>
+            <span className="text-emerald-600 text-[11px] font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100">Active</span>
           </div>
         </div>
 
         {/* Avg Transaction */}
         <div className="glass-panel glass-panel-hover rounded-2xl p-5">
-          <div className="flex items-center justify-between text-zinc-400 mb-2">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Avg Transaction</span>
-            <div className="p-1.5 rounded-lg bg-white/[0.04] text-zinc-400">
-              <Receipt className="w-4 h-4" strokeWidth={1.75} />
+          <div className="flex items-center justify-between text-slate-400 mb-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Avg Transaction</span>
+            <div className="p-2 rounded-xl bg-cyan-50 text-cyan-600 border border-cyan-100">
+              <Receipt className="w-4 h-4" strokeWidth={2} />
             </div>
           </div>
-          <div className="text-2xl sm:text-3xl font-bold text-white font-mono tracking-tight tabular-nums">
+          <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-mono tracking-tight tabular-nums">
             {formatCurrency(averageExpense, currencySymbol)}
           </div>
-          <div className="flex items-center justify-between text-xs mt-3 pt-3 border-t border-white/[0.05] text-zinc-400">
-            <span>Per-purchase</span>
-            <span className="text-zinc-300 font-mono text-[11px]">
+          <div className="flex items-center justify-between text-xs mt-3 pt-3 border-t border-slate-100 text-slate-500 font-medium">
+            <span>Per purchase</span>
+            <span className="text-slate-700 font-mono text-[11px] font-semibold">
               ~{(averageExpense / (budgetLimit || 1) * 100).toFixed(1)}% budget
             </span>
           </div>
@@ -148,38 +145,38 @@ export const StatsOverview: React.FC<StatsOverviewProps> = ({ stats, currencySym
 
         {/* Daily Velocity */}
         <div className="glass-panel glass-panel-hover rounded-2xl p-5">
-          <div className="flex items-center justify-between text-zinc-400 mb-2">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Daily Velocity</span>
-            <div className="p-1.5 rounded-lg bg-white/[0.04] text-amber-400">
-              <Zap className="w-4 h-4" strokeWidth={1.75} />
+          <div className="flex items-center justify-between text-slate-400 mb-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Daily Velocity</span>
+            <div className="p-2 rounded-xl bg-amber-50 text-amber-600 border border-amber-100">
+              <Zap className="w-4 h-4" strokeWidth={2} />
             </div>
           </div>
-          <div className="text-2xl sm:text-3xl font-bold text-white font-mono tracking-tight tabular-nums">
+          <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-mono tracking-tight tabular-nums">
             {formatCurrency(dailyVelocity, currencySymbol)}
-            <span className="text-xs text-zinc-500 font-sans font-normal ml-1">/day</span>
+            <span className="text-xs text-slate-400 font-sans font-medium ml-1">/day</span>
           </div>
-          <div className="flex items-center justify-between text-xs mt-3 pt-3 border-t border-white/[0.05] text-zinc-400">
+          <div className="flex items-center justify-between text-xs mt-3 pt-3 border-t border-slate-100 text-slate-500 font-medium">
             <span>Projected month:</span>
-            <span className="text-amber-300 font-mono font-medium text-[11px]">
+            <span className="text-amber-700 font-mono font-bold text-[11px]">
               {formatCurrency(projectedMonthEnd, currencySymbol)}
             </span>
           </div>
         </div>
 
-        {/* Remaining Budget Buffer */}
+        {/* Remaining Buffer */}
         <div className="glass-panel glass-panel-hover rounded-2xl p-5">
-          <div className="flex items-center justify-between text-zinc-400 mb-2">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Remaining Buffer</span>
-            <div className={`p-1.5 rounded-lg ${budgetRemaining > 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'}`}>
-              <ShieldCheck className="w-4 h-4" strokeWidth={1.75} />
+          <div className="flex items-center justify-between text-slate-400 mb-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Remaining Buffer</span>
+            <div className={`p-2 rounded-xl border ${budgetRemaining > 0 ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100'}`}>
+              <ShieldCheck className="w-4 h-4" strokeWidth={2} />
             </div>
           </div>
-          <div className={`text-2xl sm:text-3xl font-bold font-mono tracking-tight tabular-nums ${budgetRemaining > 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+          <div className={`text-2xl sm:text-3xl font-extrabold font-mono tracking-tight tabular-nums ${budgetRemaining > 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
             {formatCurrency(budgetRemaining, currencySymbol)}
           </div>
-          <div className="flex items-center justify-between text-xs mt-3 pt-3 border-t border-white/[0.05] text-zinc-400">
-            <span>Cap:</span>
-            <span className="text-zinc-300 font-mono text-[11px]">
+          <div className="flex items-center justify-between text-xs mt-3 pt-3 border-t border-slate-100 text-slate-500 font-medium">
+            <span>Budget Cap:</span>
+            <span className="text-slate-800 font-mono text-[11px] font-bold">
               {formatCurrency(budgetLimit, currencySymbol)}
             </span>
           </div>
@@ -227,65 +224,65 @@ export const StatsOverview: React.FC<StatsOverviewProps> = ({ stats, currencySym
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Highest Purchase */}
         <div className="glass-panel glass-panel-hover rounded-2xl p-4">
-          <div className="flex items-center gap-1.5 text-rose-400 text-xs font-semibold mb-1.5">
+          <div className="flex items-center gap-1.5 text-rose-600 text-xs font-bold mb-1.5">
             <ArrowUpRight className="w-3.5 h-3.5" /> Highest Purchase
           </div>
           {highestExpense ? (
             <div>
-              <p className="text-sm font-semibold text-white truncate">{highestExpense.title}</p>
+              <p className="text-sm font-bold text-slate-800 truncate">{highestExpense.title}</p>
               <div className="flex items-center justify-between mt-1">
-                <span className="text-rose-400 font-mono font-bold text-sm">
+                <span className="text-rose-600 font-mono font-extrabold text-sm">
                   {formatCurrency(highestExpense.amount, currencySymbol)}
                 </span>
-                <span className="text-zinc-500 text-[11px]">{formatDate(highestExpense.date)}</span>
+                <span className="text-slate-400 text-[11px] font-medium">{formatDate(highestExpense.date)}</span>
               </div>
-              <span className="text-[11px] text-zinc-500 truncate block mt-0.5">
+              <span className="text-[11px] text-slate-500 truncate block mt-0.5">
                 {highestExpense.merchant}
               </span>
             </div>
           ) : (
-            <p className="text-xs text-zinc-500">None</p>
+            <p className="text-xs text-slate-400 font-medium">None</p>
           )}
         </div>
 
         {/* Lowest Purchase */}
         <div className="glass-panel glass-panel-hover rounded-2xl p-4">
-          <div className="flex items-center gap-1.5 text-emerald-400 text-xs font-semibold mb-1.5">
+          <div className="flex items-center gap-1.5 text-emerald-600 text-xs font-bold mb-1.5">
             <ArrowDownRight className="w-3.5 h-3.5" /> Lowest Purchase
           </div>
           {lowestExpense ? (
             <div>
-              <p className="text-sm font-semibold text-white truncate">{lowestExpense.title}</p>
+              <p className="text-sm font-bold text-slate-800 truncate">{lowestExpense.title}</p>
               <div className="flex items-center justify-between mt-1">
-                <span className="text-emerald-400 font-mono font-bold text-sm">
+                <span className="text-emerald-600 font-mono font-extrabold text-sm">
                   {formatCurrency(lowestExpense.amount, currencySymbol)}
                 </span>
-                <span className="text-zinc-500 text-[11px]">{formatDate(lowestExpense.date)}</span>
+                <span className="text-slate-400 text-[11px] font-medium">{formatDate(lowestExpense.date)}</span>
               </div>
-              <span className="text-[11px] text-zinc-500 truncate block mt-0.5">
+              <span className="text-[11px] text-slate-500 truncate block mt-0.5">
                 {lowestExpense.merchant}
               </span>
             </div>
           ) : (
-            <p className="text-xs text-zinc-500">None</p>
+            <p className="text-xs text-slate-400 font-medium">None</p>
           )}
         </div>
 
         {/* Weekend vs Weekday */}
         <div className="glass-panel glass-panel-hover rounded-2xl p-4">
-          <span className="text-[11px] font-semibold uppercase text-zinc-500 block mb-2">
+          <span className="text-[11px] font-bold uppercase text-slate-400 block mb-2">
             Weekend vs Weekday
           </span>
           <div className="space-y-1.5">
-            <div className="flex justify-between text-xs">
-              <span className="text-zinc-400">Weekdays</span>
-              <span className="font-mono font-semibold text-zinc-200">{formatCurrency(weekdaySpend, currencySymbol)}</span>
+            <div className="flex justify-between text-xs font-medium">
+              <span className="text-slate-500">Weekdays</span>
+              <span className="font-mono font-bold text-slate-800">{formatCurrency(weekdaySpend, currencySymbol)}</span>
             </div>
-            <div className="flex justify-between text-xs">
-              <span className="text-zinc-400">Weekends</span>
-              <span className="font-mono font-semibold text-indigo-400">{formatCurrency(weekendSpend, currencySymbol)}</span>
+            <div className="flex justify-between text-xs font-medium">
+              <span className="text-slate-500">Weekends</span>
+              <span className="font-mono font-bold text-indigo-600">{formatCurrency(weekendSpend, currencySymbol)}</span>
             </div>
-            <div className="w-full bg-white/[0.06] h-1 rounded-full overflow-hidden flex mt-1">
+            <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden flex mt-1">
               <div
                 className="bg-cyan-500 h-full"
                 style={{ width: `${totalExpenses > 0 ? (weekdaySpend / totalExpenses) * 100 : 50}%` }}
@@ -300,19 +297,19 @@ export const StatsOverview: React.FC<StatsOverviewProps> = ({ stats, currencySym
 
         {/* Recurring vs Discretionary */}
         <div className="glass-panel glass-panel-hover rounded-2xl p-4">
-          <span className="text-[11px] font-semibold uppercase text-zinc-500 block mb-2">
+          <span className="text-[11px] font-bold uppercase text-slate-400 block mb-2">
             Recurring vs One-Off
           </span>
           <div className="space-y-1.5">
-            <div className="flex justify-between text-xs">
-              <span className="text-zinc-400">Recurring</span>
-              <span className="font-mono font-semibold text-zinc-200">{formatCurrency(recurringSpend, currencySymbol)}</span>
+            <div className="flex justify-between text-xs font-medium">
+              <span className="text-slate-500">Recurring</span>
+              <span className="font-mono font-bold text-slate-800">{formatCurrency(recurringSpend, currencySymbol)}</span>
             </div>
-            <div className="flex justify-between text-xs">
-              <span className="text-zinc-400">Discretionary</span>
-              <span className="font-mono font-semibold text-cyan-400">{formatCurrency(oneOffSpend, currencySymbol)}</span>
+            <div className="flex justify-between text-xs font-medium">
+              <span className="text-slate-500">Discretionary</span>
+              <span className="font-mono font-bold text-cyan-600">{formatCurrency(oneOffSpend, currencySymbol)}</span>
             </div>
-            <div className="w-full bg-white/[0.06] h-1 rounded-full overflow-hidden flex mt-1">
+            <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden flex mt-1">
               <div
                 className="bg-indigo-500 h-full"
                 style={{ width: `${totalExpenses > 0 ? (recurringSpend / totalExpenses) * 100 : 50}%` }}
